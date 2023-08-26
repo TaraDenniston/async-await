@@ -13,7 +13,7 @@ async function getNumFact(num) {
   }
 }
 
-getNumFact(favNum);
+console.log(getNumFact(favNum));
 
 
 // 2.
@@ -34,3 +34,15 @@ async function getNumFacts(nums) {
 getNumFacts(numList);
 
 
+// 3.
+async function getFourFacts(num) {
+  let promises = Array.from({ length: 4 }, () => {
+    return axios.get(`${baseUrl}/${num}?json`);
+  });
+
+  let responseArr = await Promise.all(promises);
+  $('body').append('<p>3.)</p><ul id="three"></ul>');
+  responseArr.forEach(r => $('#three').append(`<li>${r.data.text}</li>`));
+}
+
+getFourFacts(favNum);
