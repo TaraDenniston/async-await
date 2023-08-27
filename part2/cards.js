@@ -37,3 +37,29 @@ async function drawTwo() {
 
 drawTwo();
 
+
+// 3.
+async function drawAll() {
+  try {
+    let deckId = '';
+    let $btn = $('button');
+    let $pile = $('#pile');
+
+    let { data: d } = await axios.get(`${baseUrl}/new/shuffle`)
+    deckId = d.deck_id;
+
+    $btn.on('click', async () => {
+      let { data: c } = await axios.get(`${baseUrl}/${deckId}/draw`)
+      $pile.empty();
+      $pile.append(`<img src="${c.cards[0].image}" alt="">`);
+      if (c.remaining === 0) {
+        $btn.hide();
+        $('#deck').append(`<img src="https://placehold.co/226x316/white/white" alt="">`)
+      };
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+drawAll();
